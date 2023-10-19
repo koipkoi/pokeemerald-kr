@@ -433,9 +433,9 @@ void CopyMonNameGenderLocation(s16 id, u8 arg1)
         structPtr->searchLocBuffer[arg1][3] = TEXT_COLOR_TRANSPARENT;
         structPtr->searchLocBuffer[arg1][4] = TEXT_COLOR_LIGHT_BLUE;
         if (boxId == TOTAL_BOXES_COUNT)
-            CopyStringLeftAlignedToConditionData(&structPtr->searchLocBuffer[arg1][5], gText_InParty, 8);
+            CopyStringLeftAlignedToConditionData(&structPtr->searchLocBuffer[arg1][5], gText_InParty, 16);
         else
-            CopyStringLeftAlignedToConditionData(&structPtr->searchLocBuffer[arg1][5], GetBoxNamePtr(boxId), 8);
+            CopyStringLeftAlignedToConditionData(&structPtr->searchLocBuffer[arg1][5], GetBoxNamePtr(boxId), 16);
     }
     else
     {

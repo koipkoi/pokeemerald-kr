@@ -994,9 +994,9 @@ void GetConditionMenuMonNameAndLocString(u8 *locationDst, u8 *nameDst, u16 boxId
         locationDst[3] = TEXT_COLOR_TRANSPARENT;
         locationDst[4] = TEXT_COLOR_LIGHT_BLUE;
         if (box == TOTAL_BOXES_COUNT) // Party mon.
-            BufferConditionMenuSpacedStringN(&locationDst[5], gText_InParty, 8);
+            BufferConditionMenuSpacedStringN(&locationDst[5], gText_InParty, 16);
         else
-            BufferConditionMenuSpacedStringN(&locationDst[5], GetBoxNamePtr(box), 8);
+            BufferConditionMenuSpacedStringN(&locationDst[5], GetBoxNamePtr(box), 16);
     }
     else
     {
