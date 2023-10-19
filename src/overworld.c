@@ -37,6 +37,8 @@
 #include "mirage_tower.h"
 #include "money.h"
 #include "new_game.h"
+#include "pokemon_storage_system.h"
+#include "string_util.h"
 #include "palette.h"
 #include "play_time.h"
 #include "random.h"
@@ -1683,10 +1685,34 @@ static void sub_8086204(void)
     FieldCB_WarpExitFadeFromBlack();
 }
 
+static void MigrateNewBoxName(void)
+{
+    struct PokemonStorage tempPokemonStorage;
+    u8 *ptr, *namePtr;
+    u8 i;
+
+    if (gSaveBlock2Ptr->useNewBoxName == FALSE)
+    {
+        ptr = (u8 *)gPokemonStoragePtr->boxNames[0];
+
+        for (i = 0; i < 14; i++)
+        {
+            namePtr = ptr + (i * 9);
+            StringCopy(tempPokemonStorage.boxNames[i], namePtr);
+        }
+
+        for (i = 0; i < 14; i++)
+            StringCopy(gPokemonStoragePtr->boxNames[i], tempPokemonStorage.boxNames[i]);
+
+        gSaveBlock2Ptr->useNewBoxName = TRUE;
+    }
+}
+
 void CB2_ContinueSavedGame(void)
 {
     u8 trainerHillMapId;
 
+    MigrateNewBoxName();
     FieldClearVBlankHBlankCallbacks();
     StopMapMusic();
     ResetSafariZoneFlag_();

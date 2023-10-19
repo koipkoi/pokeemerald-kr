@@ -1913,6 +1913,8 @@ void ResetPokemonStorageSystem(void)
 {
     u16 boxId, boxPosition;
 
+    gSaveBlock2Ptr->useNewBoxName = TRUE;
+
     SetCurrentBox(0);
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
     {
