@@ -507,6 +507,26 @@ static u8 *NamingScreen_StringCopyMultibyte(u8 *dest, const u8 *src)
     return dest;
 }
 
+static u8 *NamingScreen_StringCopy(u8 *dest, const u8 *src)
+{
+    while (*src != EOS)
+    {
+        if (*src == 0)
+        {
+            *(dest++) = *(++src);
+            src++;
+        }
+        else
+        {
+            *dest++ = *src++;
+            *dest++ = *src++;
+        }
+    }
+
+    *dest = EOS;
+    return dest;
+}
+
 static void NamingScreen_Init(void)
 {
     sNamingScreen->state = STATE_FADE_IN;
@@ -2376,31 +2396,15 @@ static void BufferCharacter(u8 ch)
 
 static void SaveInputText(void)
 {
-    u8 i, j;
+    u8 i;
 
-    for (i = 0, j = 0; sNamingScreen->textBuffer[i] != EOS; i += 2)
+    NamingScreen_StringCopy(sNamingScreen->destBuffer, sNamingScreen->textBuffer);
+
+    i = StringLength(sNamingScreen->destBuffer);
+    if (i == 0)
     {
-        if (sNamingScreen->textBuffer[i] == 0)
-        {
-            sNamingScreen->destBuffer[j] = sNamingScreen->textBuffer[i + 1];
-            j++;
-        } else
-        {
-            sNamingScreen->destBuffer[j++] = sNamingScreen->textBuffer[i];
-            sNamingScreen->destBuffer[j++] = sNamingScreen->textBuffer[i + 1];
-        }
+        NamingScreen_StringCopy(sNamingScreen->destBuffer, sNamingScreen->backupBuffer);
     }
-
-    sNamingScreen->destBuffer[j] = EOS;
-
-    for (i = 0; sNamingScreen->destBuffer[i] != EOS; i++)
-    {
-        if (sNamingScreen->destBuffer[i] != EOS)
-            j++;
-    }
-
-    if (j == 0)
-        StringCopy(sNamingScreen->destBuffer, sNamingScreen->backupBuffer);
 }
 
 static void LoadGfx(void)
